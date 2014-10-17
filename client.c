@@ -1,27 +1,26 @@
 /**********************************************************************/
 /**********************************************************************/
-/*																	  */
-/*					Projet Systeme d'EXploitation					  */
-/*																	  */
+/*                                                                    */
+/*                    Projet Systeme d'EXploitation                   */
+/*                                                                    */
 /**********************************************************************/
-/*																	  */
-/* 			develloped by : Simon Anché								  */
-/* 					  		Sandjiv Parassouramanaick				  */
-/*																	  */
+/*                                                                    */
+/*              Develloped by : Simon Anché                           */
+/*                          Sandjiv Parassouramanaick                 */
+/*                                                                    */
 /**********************************************************************/
-/*																	  */
-/*	Description:													  */
-/*		Fichier client.c toute la gestion de l'affichage coté 	      */
-/*     		utilisateur						                          */
-/*																	  */
+/*                                                                    */
+/*              Description:                                          */
+/*    Fichier client.c toute la gestion de l'affichage coté           */
+/*                                                                    */
 /**********************************************************************/
-/*																	  */
-/*	Version: 0.0.1													  */
-/*	Client.c ecrit dans un fichier log et envoie au serveur toute ce  */
-/*			que l'utilisateur ecrit    								  */
-/*	Date : 10/10/2014												  */
-/*																	  */
-/**********************************************************************/
+/*                                                                    */
+/*	Version: 0.0.1                                                */
+/*	Client.c ecrit dans un fichier log et envoie au serveur toute */
+/*              ce que l'utilisateur ecrit                            */
+/*	Date : 10/10/2014                                             */
+/*                                                                    */
+/**********************************************************************/// 
 
 #include "pse.h"
 

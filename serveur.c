@@ -1,25 +1,25 @@
 /**********************************************************************/
 /**********************************************************************/
-/*																	  */
-/*					Projet Systeme d'EXploitation					  */
-/*																	  */
+/*                                                                    */
+/*                    Projet Systeme d'EXploitation                   */
+/*                                                                    */
 /**********************************************************************/
-/*																	  */
-/* 			develloped by : Simon Anché								  */
-/* 					  		Sandjiv Parassouramanaick				  */
-/*																	  */
+/*                                                                    */
+/*              Develloped by : Simon Anché                           */
+/*                          Sandjiv Parassouramanaick                 */
+/*                                                                    */
 /**********************************************************************/
-/*																	  */
-/*	Description:													  */
-/*		Fichier serveur.c comprenant la gestion des connections et    */
-/*     des données envoyées aux divers clients                        */
-/*																	  */
+/*                                                                    */
+/*              Description:                                          */
+/*		Fichier serveur.c comprenant la gestion des           */
+/*     connections et des données envoyées aux divers clients         */
+/*                                                                    */
 /**********************************************************************/
-/*																	  */
-/*	Version: 0.0.1													  */
-/*	Serveur.c gere les connections multiple à l'aide des Threads      */
-/*	Date : 10/10/2014												  */
-/*																	  */
+/*                                                                    */
+/*	Version: 0.0.1                                                */
+/*	Serveur.c gere les connections multiple à l'aide des Threads  */
+/*	Date : 10/10/2014                                             */
+/*                                                                    */
 /**********************************************************************/
 
 #include "pse.h"
@@ -27,14 +27,37 @@
 #define    nbMaxCo  20
 
 
-/***********************	Variable Globale	***********************/
+/***********************    Variable Globale    ***********************/
 int Connection[nbMaxCo];
 pthread_t Thread[nbMaxCo];
+
+typedef struct Utilisateur{
+	char pseudo[20];
+	char mdp[20];
+	int score;
+};
+
+Utilisateur Util[20];
+strcpy(Util[0].pseudo,"Simon");
+strcpy(Util[0].mdp,"Anche");
+Util[0].score=0;
+strcpy(Util[1].pseudo,"Sandjiv");
+strcpy(Util[1].mdp,"Para");
+Util[1].score=0;
+strcpy(Util[2].pseudo,"Toto");
+strcpy(Util[2].mdp,"Lolo");
+Util[2].score=0;
 /**********************************************************************/
 
 
-/***********************	Thread principal	***********************/
-void * Jeu (void *val){
+/***********************   Threads principals   ***********************/
+void* Connect(void *val){
+
+}
+
+void* Salon(void *val)
+
+void* Jeu (void *val){
 	int ret, mode, log, arret=0;
 	char buf[LIGNE_MAX];
 	
@@ -67,27 +90,33 @@ void * Jeu (void *val){
 }
 /**********************************************************************/
 
-/***********************	Programme Principal	   ********************/
+/***********************    Programme Principal    ********************/
 int main(int argc, char *argv[]) {
  		
+
+
  		//Définition des variables
  	int ecoute, i, receptionlen, port;
 	struct sockaddr_in adrEcoute, reception;
 	
 		/*************************/
 	
+
+
 		//test si le nombre d'argument est correct (nom du prog / adresse ip / port)
 	if (argc != 2) {
    		erreur("usage: %s port\n", argv[0]);
-    }
-    	/*************************/
+        }
+    	        /*************************/
+
+
 
 	for(i=0;i<nbMaxCo;i++)
 		Connection[i]=-1;
     
 
-		//Definir le socket
-    //printf("%s: creating a socket\n", CMD);		
+
+		//Definir le socket		
  	ecoute = socket (AF_INET, SOCK_STREAM, 0);
 	if (ecoute ==-1) {
 		perror("Socket");
@@ -95,6 +124,8 @@ int main(int argc, char *argv[]) {
   	}
   		/*************************/
   	
+
+
   		//Liaison socket port addresse
   	adrEcoute.sin_family = AF_INET;
 	port = (short) atoi(argv[1]);
@@ -107,11 +138,14 @@ int main(int argc, char *argv[]) {
 	}
 		/*************************/
 		
+
+
+
 		//Boucle d'écoute
 	while(1){
 			//On écoute les connections
   		if (listen (ecoute, 20)==-1) {
-    		perror("Bind");
+    			perror("Bind");
 			exit(EXIT_FAILURE);
   		}
   		
@@ -133,8 +167,8 @@ int main(int argc, char *argv[]) {
 					perror("Pthread_create");
 					exit(EXIT_FAILURE);
 				}
+				i=nbMaxCo;   //On quitte la boucle
 			}
-
 			i++;
 		}
   			
@@ -146,13 +180,7 @@ int main(int argc, char *argv[]) {
 	if (close(ecoute) == -1) {
     	erreur_IO("close ecoute");
  	}
+
 	exit(EXIT_SUCCESS);
 }
 
-
-	
-/*
-  printf("%s: adr %s, port %hu\n", CMD,
-	 stringIP(ntohl(reception.sin_addr.s_addr)),
-	 ntohs(reception.sin_port));
-	 */
