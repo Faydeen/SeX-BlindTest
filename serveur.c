@@ -35,7 +35,7 @@ typedef struct Utilisateur{
 	char pseudo[20];
 	char mdp[20];
 	int score;
-};
+}Utilisateur;
 
 Utilisateur Util[20];
 strcpy(Util[0].pseudo,"Simon");
@@ -51,11 +51,14 @@ Util[2].score=0;
 
 
 /***********************   Threads principals   ***********************/
-void* Connect(void *val){
+/*void* Connect(void *val){
 
 }
 
-void* Salon(void *val)
+void* Salon(void *val){
+
+}
+*/
 
 void* Jeu (void *val){
 	int ret, mode, log, arret=0;

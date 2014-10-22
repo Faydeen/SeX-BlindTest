@@ -5,6 +5,7 @@
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
     <property name="type_hint">menu</property>
+    <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <object class="GtkBox" id="Main_Windows">
         <property name="visible">True</property>
@@ -69,6 +70,9 @@
                   <object class="GtkTextView" id="Chat_Salon">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="wrap_mode">char</property>
+                    <property name="cursor_visible">False</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -84,6 +88,8 @@
                       <object class="GtkEntry" id="Texte_Salon">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="events">GDK_KEY_PRESS_MASK</property>
+                        <accelerator key="v" signal="paste-clipboard" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -93,10 +99,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="Send_Salon">
-                        <property name="label" translatable="yes">button</property>
+                        <property name="label" translatable="yes">Envoyer</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="Send_Clicked" object="Texte_Salon" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -117,7 +124,8 @@
               <object class="GtkLabel" id="Lab_Salon">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_bottom">101</property>
+                <property name="margin_left">1</property>
+                <property name="margin_bottom">100</property>
                 <property name="label" translatable="yes">Salon</property>
               </object>
               <packing>
@@ -134,6 +142,8 @@
                   <object class="GtkTextView" id="Chat_Disney">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="cursor_visible">False</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -158,10 +168,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="Send_Disney">
-                        <property name="label" translatable="yes">button</property>
+                        <property name="label" translatable="yes">Envoyer</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="Send_Clicked" object="Texte_Disney" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -203,6 +214,8 @@
                   <object class="GtkTextView" id="Chat_Pop">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="cursor_visible">False</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -227,10 +240,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="Send_Pop">
-                        <property name="label" translatable="yes">button</property>
+                        <property name="label" translatable="yes">Envoyer</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="Send_Clicked" object="Texte_Pop" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
