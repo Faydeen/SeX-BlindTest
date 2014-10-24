@@ -30,23 +30,6 @@
 /***********************    Variable Globale    ***********************/
 int Connection[nbMaxCo];
 pthread_t Thread[nbMaxCo];
-
-typedef struct Utilisateur{
-	char pseudo[20];
-	char mdp[20];
-	int score;
-}Utilisateur;
-
-Utilisateur Util[20];
-strcpy(Util[0].pseudo,"Simon");
-strcpy(Util[0].mdp,"Anche");
-Util[0].score=0;
-strcpy(Util[1].pseudo,"Sandjiv");
-strcpy(Util[1].mdp,"Para");
-Util[1].score=0;
-strcpy(Util[2].pseudo,"Toto");
-strcpy(Util[2].mdp,"Lolo");
-Util[2].score=0;
 /**********************************************************************/
 
 
@@ -71,21 +54,22 @@ void* Jeu (void *val){
 				erreur_IO("lireLigne");
 	  	}else if(ret<=0)
 			continue;
-		else if(strcmp(buf,"init")==0){
-			printf("Initialisation du fichier log\n");			
-			mode|=O_TRUNC;
-			log=open("journal.log", mode, 0660);
-			close(log);
+		else if(strcmp(buf,"/join Salon")==0){
+			
+		}
+		else if(strcmp(buf,"/join Disney")==0){
+			
+		}
+		else if(strcmp(buf,"/join Pop")==0){
+			
 		}
 		else if(strcmp(buf,"fin")==0){
 				printf("Arret du programme\n");
 				arret=1;
 			}	
 		else{
-			log=open("journal.log", mode, 0660);
-			ecrireLigne(log,buf);
-			close(log);  		
-			printf("%s: reception %d octets : \"%s\"\n", CMD, ret, buf);
+			ecrireLigne(Connection[(int)val],buf);
+			printf("%s: reception %d octets : \"%s\"\n", (int)val, ret, buf);
 		}
   	}	
   	Connection[(int)val]=-1;
@@ -103,21 +87,15 @@ int main(int argc, char *argv[]) {
 	struct sockaddr_in adrEcoute, reception;
 	
 		/*************************/
-	
-
 
 		//test si le nombre d'argument est correct (nom du prog / adresse ip / port)
 	if (argc != 2) {
    		erreur("usage: %s port\n", argv[0]);
-        }
-    	        /*************************/
-
-
+    }
+    	/*************************/
 
 	for(i=0;i<nbMaxCo;i++)
 		Connection[i]=-1;
-    
-
 
 		//Definir le socket		
  	ecoute = socket (AF_INET, SOCK_STREAM, 0);

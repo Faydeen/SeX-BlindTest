@@ -2,13 +2,13 @@
 #
 include ../Makefile.inc
 
-EXE = serveur client
+EXE = serveur 
 
-${EXE): ${PSE_LIB }
+${EXE): ${PSE_LIB}
 
-all: ${EXE pkg-config --cflags --libs gtk+-3.0 gmodule-2.0}
+all: ${EXE}
 
 clean:
-	rm -f *.o *~ ${EXE}
+	rm -f *.o *~ ${EXE} 
 
 

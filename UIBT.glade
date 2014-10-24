@@ -57,7 +57,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkNotebook" id="Salons">
+          <object class="GtkNotebook" id="notebook">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="tab_pos">left</property>
@@ -287,5 +287,10 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkSizeGroup" id="sizegroup1">
+    <widgets>
+      <widget name="Box_Salon"/>
+    </widgets>
   </object>
 </interface>

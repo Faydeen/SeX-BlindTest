@@ -37,7 +37,7 @@
 	//Déclaration des variables
 
 		//Variables gérant les "objets" graphique
-typedef enum Salons {Salon,Disney,Pop}Salons;
+typedef enum {Salon,Disney,Pop}Salons;
 typedef struct _my_widgets{
 
 	GtkWidget *Chat;
@@ -50,15 +50,24 @@ typedef struct _my_widgets{
 typedef struct {
 
 	GtkWidget *window1;
-	
+	GtkNotebook *notebook;
 	my_widgets *Salon;
 	my_widgets *Disney;
 	my_widgets *Pop;
 	
 	Salons salAct;
+	
+	#define readTEXT(xx) \
+   		gtk_entry_get_text(GTK_ENTRY(app->xx->Texte))
+   	#define getBUFFER(xx) \
+   		app->xx->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (app->xx->Chat));	
+   	#define getITER(xx) \
+   		gtk_text_buffer_get_iter_at_offset(app->xx->buffer, &(app->xx->iter),gtk_text_buffer_get_char_count (app->xx->buffer))
+   		
 } my_app;
 	
 my_app *app; 
+
 
 		//Varables gérant la connection au serveur
 pthread_t Thread;
@@ -156,6 +165,7 @@ int GUI(int argc,char *argv[]){
   #define appGET(xx,yy,zz) \
 		app->yy->xx=GTK_WIDGET(gtk_builder_get_object(builder,#zz))
 	app->window1=GTK_WIDGET(gtk_builder_get_object(builder,"window1"));
+	app->notebook=(GtkNotebook*)GTK_WIDGET(gtk_builder_get_object(builder,"notebook"));
 	appGET(Chat,Salon,Chat_Salon);
 	appGET(Texte,Salon,Texte_Salon);
 	appGET(Chat,Disney,Chat_Disney);
@@ -168,6 +178,7 @@ int GUI(int argc,char *argv[]){
   gtk_builder_connect_signals(builder,app);
   
   g_object_unref(G_OBJECT(builder));
+  
   gtk_widget_show(app->window1);
   
   if(pthread_create(&Thread,NULL,Chat_Update,NULL)!=0){
@@ -192,27 +203,75 @@ void on_window_destroy (){
 	/**********************************/
 
 
-void Send_Clicked(GtkEntry *text_entry){   //Gerer l'event sur la touche entrée
-   char message[1000]="";
+void Send_Clicked(GtkEntry *text_entry){   //Gerer l'event sur la touche entrée	
+		
 		
 		//On récupere le buffer et le compteur d'itération du TextView
-   app->Salon->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (app->Salon->Chat));
-   gtk_text_buffer_get_iter_at_offset(app->Salon->buffer, &(app->Salon->iter),gtk_text_buffer_get_char_count (app->Salon->buffer));
-   printf("Texte:%s\n",gtk_entry_get_text(text_entry));
-   
-   		//on ajoute le message à la fin
-   if(strcmp(gtk_entry_get_text(GTK_ENTRY(app->Salon->Texte)),"")!=0){
-   		sprintf(message,"Fayden: %s\n",gtk_entry_get_text(GTK_ENTRY(app->Salon->Texte)));
-  		gtk_text_buffer_insert(app->Salon->buffer,&(app->Salon->iter),message,-1);
-  		gtk_entry_set_text((GtkEntry*)app->Salon->Texte,"");
-   }
+        
+        switch(gtk_notebook_get_current_page(app->notebook)){
+        case 0:
+		    //getBUFFER(Salon);
+		    //getITER(Salon);
+	   		//on ajoute le message à la fin
+	   		if(strcmp(readTEXT(Salon),"")!=0){
+	   		
+		   		if(ecrireLigne(sd,(char*)readTEXT(Salon))==-1){
+		 			perror("Ecrire ligne");
+		   		}
+		  		//gtk_text_buffer_insert(app->Salon->buffer,&(app->Salon->iter),readTEXT(Salon),-1);
+		  		gtk_entry_set_text((GtkEntry*)app->Salon->Texte,"");
+   			}
+   		break;
+   		case 1:		    
+		    //getBUFFER(Disney);
+		    //getITER(Disney);
+	   		
+	   		//on ajoute le message à la fin
+	   		if(strcmp(readTEXT(Disney),"")!=0){
+	   		
+		   		if(ecrireLigne(sd,(char*)readTEXT(Disney))==-1){
+		 			perror("Ecrire ligne");
+		   		}
+		  		//gtk_text_buffer_insert(app->Disney->buffer,&(app->Disney->iter),readTEXT(Disney),-1);
+		  		gtk_entry_set_text((GtkEntry*)app->Disney->Texte,"");
+   			}
+   		break;
+   		case 2:		    
+		    //getBUFFER(Pop);
+		    //getITER(Pop);
+	   		
+	   		//on ajoute le message à la fin
+	   		if(strcmp(readTEXT(Pop),"")!=0){
+	   		
+		   		if(ecrireLigne(sd,(char*)readTEXT(Pop))==-1){
+		 			perror("Ecrire ligne");
+		   		}
+		  		//gtk_text_buffer_insert(app->Pop->buffer,&(app->Pop->iter),readTEXT(Pop),-1);
+		  		gtk_entry_set_text((GtkEntry*)app->Pop->Texte,"");
+   			}
+   		break;
+   		}
 }
 
 
 
 	//Mise a jour automatique des chats!!! 
 void *Chat_Update (void *val){
-	
+char buf[LIGNE_MAX];
+
+	while(1){
+		ret = lireLigne(sd, buf);
+	  	if (ret == LIGNE_MAX) {
+				erreur_IO("lireLigne");
+	  	}else if(ret<=0)
+			continue;
+			
+	    getBUFFER(Salon);
+		getITER(Salon);
+		strcat(buf,"\n");
+		gtk_text_buffer_insert(app->Salon->buffer,&(app->Salon->iter),buf,-1);
+		  		
+	}
 	return 0;
 }
 
